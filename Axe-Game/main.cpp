@@ -14,10 +14,10 @@ int main()
     int centerY { height / 3 };
     float radius { 25.0f };
     // Circle collision edges
-    int circleLeftEdge { centerX - radius };
-    int circleRightEdge { centerX + radius };
-    int circleUpperEdge { centerY - radius };
-    int circleLowerEdge { centerY + radius };
+    int circleLeftEdge { centerX - (int)radius };
+    int circleRightEdge { centerX + (int)radius };
+    int circleUpperEdge { centerY - (int)radius };
+    int circleLowerEdge { centerY + (int)radius };
 
     // Rectancle Coordiants
     int rectXPos { width / 2};
@@ -42,6 +42,8 @@ int main()
         ClearBackground(WHITE);
         // Start Game Logic
 
+        
+
         if (collisionWithAxe)
         {
             DrawText("Game Over", labelXPos, labelYPos, labelFont, RED);
@@ -50,6 +52,25 @@ int main()
         {
             DrawCircle(centerX, centerY, radius, BLUE);
             DrawRectangle(rectXPos, rectYPos, rectLength, rectLength, RED);
+
+            // Update collision edges
+            circleLeftEdge = centerX - radius;
+            circleRightEdge = centerX + radius;
+            circleUpperEdge = centerY - radius;
+            circleLowerEdge = centerY + radius;
+
+            rectLeftEdge = rectXPos;
+            rectRightEdge = rectXPos + rectLength;
+            rectUpperEdge = rectYPos;
+            rectLowerEdge = rectYPos + rectLength;
+
+            if (rectLowerEdge > circleUpperEdge &&
+                rectUpperEdge < circleLowerEdge &&
+                rectLeftEdge < circleRightEdge &&
+                rectRightEdge > circleLeftEdge)
+            {
+                collisionWithAxe = true;
+            }
 
             // move the axe downwards
             rectYPos += rectMoveDirection;
