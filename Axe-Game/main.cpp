@@ -10,9 +10,13 @@ int main()
     SetTargetFPS(60);
 
     // Circle Coordiants
-    int centerX { width / 2 };
-    int centerY { height / 2 };
+    int centerX { width / 4 };
+    int centerY { height / 3 };
     float radius { 25.0f };
+
+    // Rectancle Coordiants
+    int rectXPos { width / 2};
+    int rectYPos { 0 };
 
     while (!WindowShouldClose())
     {
@@ -20,14 +24,18 @@ int main()
         ClearBackground(WHITE);
         // Start Game Logic
         DrawCircle(centerX, centerY, radius, BLUE);
+        DrawRectangle(rectXPos, rectYPos, 50, 50, RED);
+
+        // move the axe downwards
+        rectYPos += 5;
 
         if (IsKeyDown(KEY_D) && centerX < width - radius)
         {
-            centerX = centerX + 5;
+            centerX += 5;
         }
         if (IsKeyDown(KEY_A) && centerX > 0 + radius)
         {
-            centerX = centerX - 5;
+            centerX -= 5;
         }
 
         // Start Game Logic
