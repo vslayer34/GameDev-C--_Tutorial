@@ -13,11 +13,22 @@ int main()
     int centerX { width / 4 };
     int centerY { height / 3 };
     float radius { 25.0f };
+    // Circle collision edges
+    int circleLeftEdge { centerX - radius };
+    int circleRightEdge { centerX + radius };
+    int circleUpperEdge { centerY - radius };
+    int circleLowerEdge { centerY + radius };
 
     // Rectancle Coordiants
     int rectXPos { width / 2};
     int rectYPos { 0 };
+    int rectLength { 50 };
     int rectMoveDirection { 5 };
+    // Rectancle collision edges
+    int rectLeftEdge { rectXPos };
+    int rectRightEdge { rectXPos + rectLength };
+    int rectUpperEdge { rectYPos };
+    int rectLowerEdge { rectYPos + rectLength };
 
     while (!WindowShouldClose())
     {
@@ -25,11 +36,11 @@ int main()
         ClearBackground(WHITE);
         // Start Game Logic
         DrawCircle(centerX, centerY, radius, BLUE);
-        DrawRectangle(rectXPos, rectYPos, 50, 50, RED);
+        DrawRectangle(rectXPos, rectYPos, rectLength, rectLength, RED);
 
         // move the axe downwards
         rectYPos += rectMoveDirection;
-        if (rectYPos > height - 50 || rectYPos < 0)
+        if (rectYPos > height - rectLength || rectYPos < 0)
         {
             rectMoveDirection = -rectMoveDirection;
         }
