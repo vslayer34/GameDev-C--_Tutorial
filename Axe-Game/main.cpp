@@ -30,29 +30,44 @@ int main()
     int rectUpperEdge { rectYPos };
     int rectLowerEdge { rectYPos + rectLength };
 
+    // Game Over Text
+    int labelFont { 20 };
+    int labelXPos { width / 2 };
+    int labelYPos { (height / 2) - (labelFont / 2) };
+    bool collisionWithAxe { false };
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(WHITE);
         // Start Game Logic
-        DrawCircle(centerX, centerY, radius, BLUE);
-        DrawRectangle(rectXPos, rectYPos, rectLength, rectLength, RED);
 
-        // move the axe downwards
-        rectYPos += rectMoveDirection;
-        if (rectYPos > height - rectLength || rectYPos < 0)
+        if (collisionWithAxe)
         {
-            rectMoveDirection = -rectMoveDirection;
+            DrawText("Game Over", labelXPos, labelYPos, labelFont, RED);
         }
+        else
+        {
+            DrawCircle(centerX, centerY, radius, BLUE);
+            DrawRectangle(rectXPos, rectYPos, rectLength, rectLength, RED);
 
-        if (IsKeyDown(KEY_D) && centerX < width - radius)
-        {
-            centerX += 5;
+            // move the axe downwards
+            rectYPos += rectMoveDirection;
+            if (rectYPos > height - rectLength || rectYPos < 0)
+            {
+                rectMoveDirection = -rectMoveDirection;
+            }
+
+            if (IsKeyDown(KEY_D) && centerX < width - radius)
+            {
+                centerX += 5;
+            }
+            if (IsKeyDown(KEY_A) && centerX > 0 + radius)
+            {
+                centerX -= 5;
+            }
         }
-        if (IsKeyDown(KEY_A) && centerX > 0 + radius)
-        {
-            centerX -= 5;
-        }
+        
 
         // Start Game Logic
         EndDrawing();
