@@ -21,11 +21,11 @@ int main()
         // Start Game Logic
         DrawCircle(centerX, centerY, radius, BLUE);
 
-        if (IsKeyDown(KEY_D))
+        if (IsKeyDown(KEY_D) && centerX < width - radius)
         {
             centerX = centerX + 5;
         }
-        if (IsKeyDown(KEY_A))
+        if (IsKeyDown(KEY_A) && centerX > 0 + radius)
         {
             centerX = centerX - 5;
         }
