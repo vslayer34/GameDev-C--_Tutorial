@@ -17,6 +17,7 @@ int main()
     // Rectancle Coordiants
     int rectXPos { width / 2};
     int rectYPos { 0 };
+    int rectMoveDirection { 5 };
 
     while (!WindowShouldClose())
     {
@@ -27,7 +28,11 @@ int main()
         DrawRectangle(rectXPos, rectYPos, 50, 50, RED);
 
         // move the axe downwards
-        rectYPos += 5;
+        rectYPos += rectMoveDirection;
+        if (rectYPos > height - 50 || rectYPos < 0)
+        {
+            rectMoveDirection = -rectMoveDirection;
+        }
 
         if (IsKeyDown(KEY_D) && centerX < width - radius)
         {
