@@ -15,7 +15,12 @@ int main()
     int rectPosY { WINDOW_HEIGHT - RECT_HEIGHT };
     int rectPosX { WINDOW_WIDTH / 2 };
 
-    const int JUMP_VELOCITY { -5 };
+    const int GRAVITY { 1 };            // gravity (1 pixel / framer^2)
+
+    const int JUMP_FORCE { -10 };
+    int jumpVelocity { 0 };
+
+    bool isGrounded;
 
 
     while (!WindowShouldClose())
@@ -26,10 +31,25 @@ int main()
 
         DrawRectangle(rectPosX, rectPosY, RECT_WIDTH, RECT_HEIGHT, RED);
 
+        // apply ground check and gravity
+        isGrounded = (rectPosY >= WINDOW_HEIGHT - RECT_HEIGHT);
+        
+        if (!isGrounded)
+        {
+            jumpVelocity += GRAVITY;
+        }
+        else
+        {
+            jumpVelocity = 0;
+        }
+
         if (IsKeyPressed(KEY_SPACE))
         {
-            rectPosY += JUMP_VELOCITY;
+            // rectPosY += JUMP_VELOCITY;
+            jumpVelocity += JUMP_FORCE;
         }
+
+        rectPosY += jumpVelocity;
         
         
         // End Game Logic
