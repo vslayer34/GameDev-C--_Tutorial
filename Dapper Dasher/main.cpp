@@ -9,6 +9,12 @@ int main()
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Dapper Dasher");
 
+    // Scarfy
+    const char *scargySpriteSheetPath = "Assets/textures/scarfy.png";
+    Texture2D scarfySpriteSheet { LoadTexture(scargySpriteSheetPath) };
+    Rectangle scarfyAnimationOffset { };
+    Vector2 scarfyAnimationOffsetPos { };
+
     // Test rectangle
     const int RECT_WIDTH { 20 };
     const int RECT_HEIGHT { 20 };
