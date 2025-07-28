@@ -12,14 +12,18 @@ int main()
     // Scarfy
     const char *scargySpriteSheetPath = "Assets/textures/scarfy.png";
     Texture2D scarfySpriteSheet { LoadTexture(scargySpriteSheetPath) };
-    Rectangle scarfyAnimationOffset { };
-    Vector2 scarfyAnimationOffsetPos { };
-
-    // Test rectangle
-    const int RECT_WIDTH { 20 };
-    const int RECT_HEIGHT { 20 };
-    int rectPosY { WINDOW_HEIGHT - RECT_HEIGHT };
-    int rectPosX { WINDOW_WIDTH / 2 };
+    Rectangle scarfySpriteRect
+    { 
+        .x = 0,
+        .y = 0,
+        .width = static_cast<float>(scarfySpriteSheet.width) / 6,
+        .height = static_cast<float>(scarfySpriteSheet.height)
+    };
+    Vector2 scarfyPos
+    {
+        .x = WINDOW_WIDTH / 2 - scarfySpriteRect.width,
+        .y = WINDOW_HEIGHT - scarfySpriteRect.height
+    };
 
     const int GRAVITY { 1 };            // gravity (1 pixel / framer^2)
 
@@ -35,10 +39,10 @@ int main()
         ClearBackground(WHITE);
         // Begin Game Logic
 
-        DrawRectangle(rectPosX, rectPosY, RECT_WIDTH, RECT_HEIGHT, RED);
+        DrawTextureRec(scarfySpriteSheet, scarfySpriteRect, scarfyPos, WHITE);
 
         // apply ground check and gravity
-        grounded = (rectPosY >= WINDOW_HEIGHT - RECT_HEIGHT);
+        grounded = (scarfyPos.y >= WINDOW_HEIGHT - scarfySpriteRect.height);
         
         if (!grounded)
         {
@@ -55,12 +59,14 @@ int main()
             jumpVelocity += JUMP_FORCE;
         }
 
-        rectPosY += jumpVelocity;
+        scarfyPos.y += jumpVelocity;
         
         
         // End Game Logic
         EndDrawing();
     }
+
+    UnloadTexture(scarfySpriteSheet);
     CloseWindow();
 
     return 0;
