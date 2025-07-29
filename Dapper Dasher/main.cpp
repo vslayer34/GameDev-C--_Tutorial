@@ -25,9 +25,9 @@ int main()
         .y = WINDOW_HEIGHT - scarfySpriteRect.height
     };
 
-    const int GRAVITY { 1 };            // gravity (1 pixel / framer^2)
+    const int GRAVITY { 1000 };            // gravity (1 pixel / sec^2)
 
-    const int JUMP_FORCE { -22 };
+    const int JUMP_FORCE { -600 };          // pixel / sec
     int jumpVelocity { 0 };
 
     bool grounded;
@@ -39,6 +39,8 @@ int main()
         ClearBackground(WHITE);
         // Begin Game Logic
 
+        float deltaTime = GetFrameTime();
+
         DrawTextureRec(scarfySpriteSheet, scarfySpriteRect, scarfyPos, WHITE);
 
         // apply ground check and gravity
@@ -46,7 +48,7 @@ int main()
         
         if (!grounded)
         {
-            jumpVelocity += GRAVITY;
+            jumpVelocity += GRAVITY * deltaTime;
         }
         else
         {
@@ -59,7 +61,7 @@ int main()
             jumpVelocity += JUMP_FORCE;
         }
 
-        scarfyPos.y += jumpVelocity;
+        scarfyPos.y += jumpVelocity * deltaTime;
         
         
         // End Game Logic
