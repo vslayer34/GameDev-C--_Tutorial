@@ -2,6 +2,9 @@
 
 int main()
 {
+    // files paths
+    const char *scargySpriteSheetPath { "Assets/textures/scarfy.png" };
+    const char *nebulaSpriteSheetPath { "Assets/textures/12_nebula_spritesheet.png" };
     // Window setup
     const int WINDOW_WIDTH { 800 };
     const int WINDOW_HEIGHT { 600 };
@@ -9,8 +12,10 @@ int main()
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Dapper Dasher");
 
+    // Nebula
+    Texture2D nebulaSpriteSheet { LoadTexture(nebulaSpriteSheetPath) };
+
     // Scarfy
-    const char *scargySpriteSheetPath = "Assets/textures/scarfy.png";
     Texture2D scarfySpriteSheet { LoadTexture(scargySpriteSheetPath) };
     Rectangle scarfySpriteRect
     { 
@@ -83,6 +88,7 @@ int main()
     }
 
     UnloadTexture(scarfySpriteSheet);
+    UnloadTexture(nebulaSpriteSheet);
     CloseWindow();
 
     return 0;
