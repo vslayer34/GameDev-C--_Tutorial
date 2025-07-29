@@ -14,6 +14,16 @@ int main()
 
     // Nebula
     Texture2D nebulaSpriteSheet { LoadTexture(nebulaSpriteSheetPath) };
+    Rectangle nebulaSpriteRect
+    {
+        .x = 0,
+        .y = 0,
+        .width = nebulaSpriteSheet.width / 8,
+        .height = nebulaSpriteSheet.height / 8,
+    };
+    Vector2 nebulaPos { WINDOW_WIDTH, WINDOW_HEIGHT - nebulaSpriteRect.height };
+    int nebulaVelocity { -600 };                // pixel/sec
+
 
     // Scarfy
     Texture2D scarfySpriteSheet { LoadTexture(scargySpriteSheetPath) };
@@ -57,10 +67,16 @@ int main()
         {
             animationTime = 0;
             scarfySpriteRect.x = frame * scarfySpriteRect.width;
-            frame = frame >= 5 ? 0 : frame + 1;
-        }
 
-        DrawTextureRec(scarfySpriteSheet, scarfySpriteRect, scarfyPos, WHITE);
+            if (!grounded)
+            {
+                frame = 0;
+            }
+            else
+            {
+                frame = frame >= 5 ? 0 : frame + 1;
+            }
+        }
 
         // apply ground check and gravity
         grounded = (scarfyPos.y >= WINDOW_HEIGHT - scarfySpriteRect.height);
@@ -81,6 +97,11 @@ int main()
         }
 
         scarfyPos.y += jumpVelocity * deltaTime;
+        nebulaPos.x += nebulaVelocity * deltaTime;
+
+
+        DrawTextureRec(scarfySpriteSheet, scarfySpriteRect, scarfyPos, WHITE);
+        DrawTextureRec(nebulaSpriteSheet, nebulaSpriteRect, nebulaPos, WHITE);
         
         
         // End Game Logic
