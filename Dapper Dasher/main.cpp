@@ -32,6 +32,11 @@ int main()
 
     bool grounded;
 
+    // animations
+    int frame { };
+    const float framesUpdateTime { 1.0f / 12.0f };
+    float animationTime { };
+
 
     while (!WindowShouldClose())
     {
@@ -40,6 +45,15 @@ int main()
         // Begin Game Logic
 
         float deltaTime = GetFrameTime();
+
+        animationTime += deltaTime;
+
+        if (animationTime >= framesUpdateTime)
+        {
+            animationTime = 0;
+            scarfySpriteRect.x = frame * scarfySpriteRect.width;
+            frame = frame >= 5 ? 0 : frame + 1;
+        }
 
         DrawTextureRec(scarfySpriteSheet, scarfySpriteRect, scarfyPos, WHITE);
 
