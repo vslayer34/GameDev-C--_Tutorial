@@ -1,5 +1,15 @@
 #include "raylib.h"
 
+struct AnimData
+{
+    Rectangle spriteRect { };
+    Vector2 pos { };
+    int frame { };
+    const float ANIME_UPDATE_TIME { };
+    float animRunTime { };
+};
+
+
 int main()
 {
     // files paths
@@ -39,6 +49,28 @@ int main()
 
     // Scarfy
     Texture2D scarfySpriteSheet { LoadTexture(scargySpriteSheetPath) };
+
+    AnimData scarfyData
+    {
+        .spriteRect
+        {
+            .x { 0 },
+            .y { 0 },
+            .width { static_cast<float>(scarfySpriteSheet.width) / 6 },
+            .height { static_cast<float>(scarfySpriteSheet.height) }
+        },
+
+        .pos
+        {
+            .x = WINDOW_WIDTH / 2 - scarfyData.spriteRect.width,
+            .y = WINDOW_HEIGHT - scarfyData.spriteRect.height
+        },
+
+        .frame { },
+        .ANIME_UPDATE_TIME { 1.0f / 12.0f },
+        .animRunTime { }
+    };
+    
     Rectangle scarfySpriteRect
     { 
         .x = 0,
