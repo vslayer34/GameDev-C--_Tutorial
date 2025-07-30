@@ -42,15 +42,21 @@ int main()
 
     const int GRAVITY { 1000 };            // gravity (1 pixel / sec^2)
 
-    const int JUMP_FORCE { -600 };          // pixel / sec
+    const int JUMP_FORCE { -300 };          // pixel / sec
     int jumpVelocity { 0 };
 
     bool grounded;
 
     // animations
-    int frame { };
-    const float framesUpdateTime { 1.0f / 12.0f };
-    float animationTime { };
+    int scarfyFrame { };
+    const float SCARFY_FRAME_UPDATE_TIME { 1.0f / 12.0f };
+    float scarfyAnimationRunTime { };
+
+    int nebulaFrame { };
+    const float NEBULA_FRAME_UPDATE_TIME { 1.0f / 12.0f };
+    float nebulaAnimationRunTime { };
+
+
 
 
     while (!WindowShouldClose())
@@ -61,20 +67,29 @@ int main()
 
         float deltaTime = GetFrameTime();
 
-        animationTime += deltaTime;
+        scarfyAnimationRunTime += deltaTime;
+        nebulaAnimationRunTime += deltaTime;
 
-        if (animationTime >= framesUpdateTime)
+        if (nebulaAnimationRunTime >= NEBULA_FRAME_UPDATE_TIME)
         {
-            animationTime = 0;
-            scarfySpriteRect.x = frame * scarfySpriteRect.width;
+            nebulaAnimationRunTime = 0.0f;
+            nebulaSpriteRect.x = nebulaFrame * nebulaSpriteRect.width;
+
+            nebulaFrame = nebulaFrame >= 7 ? 0 : nebulaFrame + 1;
+        }
+
+        if (scarfyAnimationRunTime >= SCARFY_FRAME_UPDATE_TIME)
+        {
+            scarfyAnimationRunTime = 0.0f;
+            scarfySpriteRect.x = scarfyFrame * scarfySpriteRect.width;
 
             if (!grounded)
             {
-                frame = 0;
+                scarfyFrame = 0;
             }
             else
             {
-                frame = frame >= 5 ? 0 : frame + 1;
+                scarfyFrame = scarfyFrame >= 5 ? 0 : scarfyFrame + 1;
             }
         }
 
