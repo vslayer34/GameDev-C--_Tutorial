@@ -22,6 +22,18 @@ int main()
         .height = nebulaSpriteSheet.height / 8,
     };
     Vector2 nebulaPos { WINDOW_WIDTH, WINDOW_HEIGHT - nebulaSpriteRect.height };
+
+    // Nebula 2
+    Texture2D nebulaSpriteSheet2 { LoadTexture(nebulaSpriteSheetPath) };
+    Rectangle nebulaSpriteRect2
+    {
+        .x = 0,
+        .y = 0,
+        .width = nebulaSpriteSheet.width / 8,
+        .height = nebulaSpriteSheet.height / 8,
+    };
+    Vector2 nebulaPos2 { WINDOW_WIDTH + 450, WINDOW_HEIGHT - nebulaSpriteRect.height };
+
     int nebulaVelocity { -600 };                // pixel/sec
 
 
@@ -42,19 +54,26 @@ int main()
 
     const int GRAVITY { 1000 };            // gravity (1 pixel / sec^2)
 
-    const int JUMP_FORCE { -300 };          // pixel / sec
+    const int JUMP_FORCE { -600 };          // pixel / sec
     int jumpVelocity { 0 };
 
     bool grounded;
 
     // animations
+    // scarfy
     int scarfyFrame { };
     const float SCARFY_FRAME_UPDATE_TIME { 1.0f / 12.0f };
     float scarfyAnimationRunTime { };
 
+    // nebula
     int nebulaFrame { };
     const float NEBULA_FRAME_UPDATE_TIME { 1.0f / 12.0f };
     float nebulaAnimationRunTime { };
+
+    // nebula 2
+    int nebulaFrame2 { };
+    const float NEBULA_FRAME_UPDATE_TIME_2 { 1.0f / 16.0f };
+    float nebulaAnimationRunTime2 { };
 
 
 
@@ -69,6 +88,15 @@ int main()
 
         scarfyAnimationRunTime += deltaTime;
         nebulaAnimationRunTime += deltaTime;
+        nebulaAnimationRunTime2 += deltaTime;
+
+        if (nebulaAnimationRunTime2 >= NEBULA_FRAME_UPDATE_TIME_2)
+        {
+            nebulaAnimationRunTime2 = 0.0f;
+            nebulaSpriteRect2.x = nebulaFrame2 * nebulaSpriteRect2.width;
+
+            nebulaFrame2 = nebulaFrame2 >= 7 ? 0 : nebulaFrame2 + 1;
+        }
 
         if (nebulaAnimationRunTime >= NEBULA_FRAME_UPDATE_TIME)
         {
@@ -113,10 +141,14 @@ int main()
 
         scarfyPos.y += jumpVelocity * deltaTime;
         nebulaPos.x += nebulaVelocity * deltaTime;
+        nebulaPos2.x += nebulaVelocity * deltaTime;
 
 
         DrawTextureRec(scarfySpriteSheet, scarfySpriteRect, scarfyPos, WHITE);
         DrawTextureRec(nebulaSpriteSheet, nebulaSpriteRect, nebulaPos, WHITE);
+
+        // nebula 2
+        DrawTextureRec(nebulaSpriteSheet2, nebulaSpriteRect2, nebulaPos2, RED);
         
         
         // End Game Logic
