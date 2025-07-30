@@ -24,6 +24,23 @@ int main()
 
     // Nebula
     Texture2D nebulaSpriteSheet { LoadTexture(nebulaSpriteSheetPath) };
+
+    AnimData nebulaAnimData
+    {
+        .spriteRect
+        {
+            .x = 0,
+            .y = 0,
+            .width = static_cast<float>(nebulaSpriteSheet.width / 8),
+            .height = static_cast<float>(nebulaSpriteSheet.height / 8),
+        },
+
+        .pos { WINDOW_WIDTH, WINDOW_HEIGHT - nebulaAnimData.spriteRect.height },
+        .frame { },
+        .ANIME_UPDATE_TIME { 1.0f / 12.0f },
+        .animRunTime { }
+    };
+
     Rectangle nebulaSpriteRect
     {
         .x = 0,
@@ -34,7 +51,24 @@ int main()
     Vector2 nebulaPos { WINDOW_WIDTH, WINDOW_HEIGHT - nebulaSpriteRect.height };
 
     // Nebula 2
-    Texture2D nebulaSpriteSheet2 { LoadTexture(nebulaSpriteSheetPath) };
+    // Texture2D nebulaSpriteSheet2 { LoadTexture(nebulaSpriteSheetPath) };
+
+    AnimData nebulaAnimData2
+    {
+        .spriteRect
+        {
+            .x = 0,
+            .y = 0,
+            .width = static_cast<float>(nebulaSpriteSheet.width / 8),
+            .height = static_cast<float>(nebulaSpriteSheet.height / 8),
+        },
+
+        .pos { WINDOW_WIDTH + 450, WINDOW_HEIGHT - nebulaAnimData.spriteRect.height },
+        .frame { },
+        .ANIME_UPDATE_TIME { 1.0f / 16.0f },
+        .animRunTime { }
+    };
+
     Rectangle nebulaSpriteRect2
     {
         .x = 0,
@@ -70,7 +104,7 @@ int main()
         .ANIME_UPDATE_TIME { 1.0f / 12.0f },
         .animRunTime { }
     };
-    
+
     Rectangle scarfySpriteRect
     { 
         .x = 0,
@@ -180,7 +214,7 @@ int main()
         DrawTextureRec(nebulaSpriteSheet, nebulaSpriteRect, nebulaPos, WHITE);
 
         // nebula 2
-        DrawTextureRec(nebulaSpriteSheet2, nebulaSpriteRect2, nebulaPos2, RED);
+        DrawTextureRec(nebulaSpriteSheet, nebulaSpriteRect2, nebulaPos2, RED);
         
         
         // End Game Logic
