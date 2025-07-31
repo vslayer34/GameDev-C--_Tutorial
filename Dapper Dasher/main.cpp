@@ -19,11 +19,10 @@ int main()
     const char *scargySpriteSheetPath { "Assets/textures/scarfy.png" };
     const char *nebulaSpriteSheetPath { "Assets/textures/12_nebula_spritesheet.png" };
     // Window setup
-    const int WINDOW_WIDTH { 800 };
-    const int WINDOW_HEIGHT { 600 };
+    const int WINDOW_DIMENSIONS[2] { 800, 600 };
     SetTargetFPS(60);
 
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Dapper Dasher");
+    InitWindow(WINDOW_DIMENSIONS[0], WINDOW_DIMENSIONS[1], "Dapper Dasher");
 
     // Nebula
     Texture2D nebulaSpriteSheet { LoadTexture(nebulaSpriteSheetPath) };
@@ -38,7 +37,7 @@ int main()
             .height = static_cast<float>(nebulaSpriteSheet.height / 8),
         },
 
-        .pos { WINDOW_WIDTH, WINDOW_HEIGHT - nebulaAnimData.spriteRect.height },
+        .pos { WINDOW_DIMENSIONS[0], WINDOW_DIMENSIONS[1] - nebulaAnimData.spriteRect.height },
         .frame { },
         .ANIME_UPDATE_TIME { 1.0f / 12.0f },
         .animRunTime { }
@@ -55,7 +54,7 @@ int main()
             .height = static_cast<float>(nebulaSpriteSheet.height / 8),
         },
 
-        .pos { WINDOW_WIDTH + 450, WINDOW_HEIGHT - nebulaAnimData.spriteRect.height },
+        .pos { WINDOW_DIMENSIONS[0] + 450, WINDOW_DIMENSIONS[1] - nebulaAnimData.spriteRect.height },
         .frame { },
         .ANIME_UPDATE_TIME { 1.0f / 16.0f },
         .animRunTime { }
@@ -79,8 +78,8 @@ int main()
 
         .pos
         {
-            .x = WINDOW_WIDTH / 2 - scarfyData.spriteRect.width,
-            .y = WINDOW_HEIGHT - scarfyData.spriteRect.height
+            .x = WINDOW_DIMENSIONS[0] / 2 - scarfyData.spriteRect.width,
+            .y = WINDOW_DIMENSIONS[1] - scarfyData.spriteRect.height
         },
 
         .frame { },
@@ -142,7 +141,7 @@ int main()
         }
 
         // apply ground check and gravity
-        grounded = (scarfyData.pos.y >= WINDOW_HEIGHT - scarfyData.spriteHeight);
+        grounded = (scarfyData.pos.y >= WINDOW_DIMENSIONS[1] - scarfyData.spriteHeight);
         
         if (!grounded)
         {
