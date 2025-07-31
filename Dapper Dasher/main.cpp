@@ -55,6 +55,7 @@ int main()
         },
 
         .pos { WINDOW_DIMENSIONS[0] + 450, WINDOW_DIMENSIONS[1] - nebulaAnimData.spriteRect.height },
+        
         .frame { },
         .ANIME_UPDATE_TIME { 1.0f / 16.0f },
         .animRunTime { }
