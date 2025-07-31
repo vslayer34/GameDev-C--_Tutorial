@@ -7,6 +7,9 @@ struct AnimData
     int frame { };
     const float ANIME_UPDATE_TIME { };
     float animRunTime { };
+
+    int spriteWidth { static_cast<int>(spriteRect.width) };
+    int spriteHeight { static_cast<int>(spriteRect.height) };
 };
 
 
@@ -41,18 +44,7 @@ int main()
         .animRunTime { }
     };
 
-    Rectangle nebulaSpriteRect
-    {
-        .x = 0,
-        .y = 0,
-        .width = nebulaSpriteSheet.width / 8,
-        .height = nebulaSpriteSheet.height / 8,
-    };
-    Vector2 nebulaPos { WINDOW_WIDTH, WINDOW_HEIGHT - nebulaSpriteRect.height };
-
     // Nebula 2
-    // Texture2D nebulaSpriteSheet2 { LoadTexture(nebulaSpriteSheetPath) };
-
     AnimData nebulaAnimData2
     {
         .spriteRect
@@ -68,15 +60,6 @@ int main()
         .ANIME_UPDATE_TIME { 1.0f / 16.0f },
         .animRunTime { }
     };
-
-    Rectangle nebulaSpriteRect2
-    {
-        .x = 0,
-        .y = 0,
-        .width = nebulaSpriteSheet.width / 8,
-        .height = nebulaSpriteSheet.height / 8,
-    };
-    Vector2 nebulaPos2 { WINDOW_WIDTH + 450, WINDOW_HEIGHT - nebulaSpriteRect.height };
 
     int nebulaVelocity { -600 };                // pixel/sec
 
@@ -105,41 +88,12 @@ int main()
         .animRunTime { }
     };
 
-    Rectangle scarfySpriteRect
-    { 
-        .x = 0,
-        .y = 0,
-        .width = static_cast<float>(scarfySpriteSheet.width) / 6,
-        .height = static_cast<float>(scarfySpriteSheet.height)
-    };
-    Vector2 scarfyPos
-    {
-        .x = WINDOW_WIDTH / 2 - scarfySpriteRect.width,
-        .y = WINDOW_HEIGHT - scarfySpriteRect.height
-    };
-
     const int GRAVITY { 1000 };            // gravity (1 pixel / sec^2)
 
     const int JUMP_FORCE { -600 };          // pixel / sec
     int jumpVelocity { 0 };
 
     bool grounded;
-
-    // animations
-    // scarfy
-    int scarfyFrame { };
-    const float SCARFY_FRAME_UPDATE_TIME { 1.0f / 12.0f };
-    float scarfyAnimationRunTime { };
-
-    // nebula
-    int nebulaFrame { };
-    const float NEBULA_FRAME_UPDATE_TIME { 1.0f / 12.0f };
-    float nebulaAnimationRunTime { };
-
-    // nebula 2
-    int nebulaFrame2 { };
-    const float NEBULA_FRAME_UPDATE_TIME_2 { 1.0f / 16.0f };
-    float nebulaAnimationRunTime2 { };
 
 
 
@@ -152,43 +106,43 @@ int main()
 
         float deltaTime = GetFrameTime();
 
-        scarfyAnimationRunTime += deltaTime;
-        nebulaAnimationRunTime += deltaTime;
-        nebulaAnimationRunTime2 += deltaTime;
+        scarfyData.animRunTime += deltaTime;
+        nebulaAnimData.animRunTime += deltaTime;
+        nebulaAnimData2.animRunTime += deltaTime;
 
-        if (nebulaAnimationRunTime2 >= NEBULA_FRAME_UPDATE_TIME_2)
+        if (nebulaAnimData2.animRunTime >= nebulaAnimData2.ANIME_UPDATE_TIME)
         {
-            nebulaAnimationRunTime2 = 0.0f;
-            nebulaSpriteRect2.x = nebulaFrame2 * nebulaSpriteRect2.width;
+            nebulaAnimData2.animRunTime = 0.0f;
+            nebulaAnimData2.spriteRect.x = nebulaAnimData2.frame * nebulaAnimData2.spriteWidth;
 
-            nebulaFrame2 = nebulaFrame2 >= 7 ? 0 : nebulaFrame2 + 1;
+            nebulaAnimData2.frame = nebulaAnimData2.frame >= 7 ? 0 : nebulaAnimData2.frame + 1;
         }
 
-        if (nebulaAnimationRunTime >= NEBULA_FRAME_UPDATE_TIME)
+        if (nebulaAnimData.animRunTime >= nebulaAnimData.ANIME_UPDATE_TIME)
         {
-            nebulaAnimationRunTime = 0.0f;
-            nebulaSpriteRect.x = nebulaFrame * nebulaSpriteRect.width;
+            nebulaAnimData.animRunTime = 0.0f;
+            nebulaAnimData.spriteRect.x = nebulaAnimData.frame * nebulaAnimData.spriteWidth;
 
-            nebulaFrame = nebulaFrame >= 7 ? 0 : nebulaFrame + 1;
+            nebulaAnimData.frame = nebulaAnimData.frame >= 7 ? 0 : nebulaAnimData.frame + 1;
         }
 
-        if (scarfyAnimationRunTime >= SCARFY_FRAME_UPDATE_TIME)
+        if (scarfyData.animRunTime >= scarfyData.ANIME_UPDATE_TIME)
         {
-            scarfyAnimationRunTime = 0.0f;
-            scarfySpriteRect.x = scarfyFrame * scarfySpriteRect.width;
+            scarfyData.animRunTime = 0.0f;
+            scarfyData.spriteRect.x = scarfyData.frame * scarfyData.spriteWidth;
 
             if (!grounded)
             {
-                scarfyFrame = 0;
+                scarfyData.frame = 0;
             }
             else
             {
-                scarfyFrame = scarfyFrame >= 5 ? 0 : scarfyFrame + 1;
+                scarfyData.frame = scarfyData.frame >= 5 ? 0 : scarfyData.frame + 1;
             }
         }
 
         // apply ground check and gravity
-        grounded = (scarfyPos.y >= WINDOW_HEIGHT - scarfySpriteRect.height);
+        grounded = (scarfyData.pos.y >= WINDOW_HEIGHT - scarfyData.spriteHeight);
         
         if (!grounded)
         {
@@ -205,16 +159,16 @@ int main()
             jumpVelocity += JUMP_FORCE;
         }
 
-        scarfyPos.y += jumpVelocity * deltaTime;
-        nebulaPos.x += nebulaVelocity * deltaTime;
-        nebulaPos2.x += nebulaVelocity * deltaTime;
+        scarfyData.pos.y += jumpVelocity * deltaTime;
+        nebulaAnimData.pos.x += nebulaVelocity * deltaTime;
+        nebulaAnimData2.pos.x += nebulaVelocity * deltaTime;
 
 
-        DrawTextureRec(scarfySpriteSheet, scarfySpriteRect, scarfyPos, WHITE);
-        DrawTextureRec(nebulaSpriteSheet, nebulaSpriteRect, nebulaPos, WHITE);
+        DrawTextureRec(scarfySpriteSheet, scarfyData.spriteRect, scarfyData.pos, WHITE);
+        DrawTextureRec(nebulaSpriteSheet, nebulaAnimData.spriteRect, nebulaAnimData.pos, WHITE);
 
         // nebula 2
-        DrawTextureRec(nebulaSpriteSheet, nebulaSpriteRect2, nebulaPos2, RED);
+        DrawTextureRec(nebulaSpriteSheet, nebulaAnimData2.spriteRect, nebulaAnimData2.pos, RED);
         
         
         // End Game Logic
