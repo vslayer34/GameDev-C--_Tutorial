@@ -94,6 +94,7 @@ int main()
 
     bool grounded;
 
+    AnimData nebulae[2] { nebulaAnimData, nebulaAnimData2 };
 
 
 
@@ -106,23 +107,23 @@ int main()
         float deltaTime = GetFrameTime();
 
         scarfyData.animRunTime += deltaTime;
-        nebulaAnimData.animRunTime += deltaTime;
-        nebulaAnimData2.animRunTime += deltaTime;
+        nebulae[0].animRunTime += deltaTime;
+        nebulae[1].animRunTime += deltaTime;
 
-        if (nebulaAnimData2.animRunTime >= nebulaAnimData2.ANIME_UPDATE_TIME)
+        if (nebulae[1].animRunTime >= nebulae[1].ANIME_UPDATE_TIME)
         {
-            nebulaAnimData2.animRunTime = 0.0f;
-            nebulaAnimData2.spriteRect.x = nebulaAnimData2.frame * nebulaAnimData2.spriteWidth;
+            nebulae[1].animRunTime = 0.0f;
+            nebulae[1].spriteRect.x = nebulae[1].frame * nebulae[1].spriteWidth;
 
-            nebulaAnimData2.frame = nebulaAnimData2.frame >= 7 ? 0 : nebulaAnimData2.frame + 1;
+            nebulae[1].frame = nebulae[1].frame >= 7 ? 0 : nebulae[1].frame + 1;
         }
 
-        if (nebulaAnimData.animRunTime >= nebulaAnimData.ANIME_UPDATE_TIME)
+        if (nebulae[0].animRunTime >= nebulae[0].ANIME_UPDATE_TIME)
         {
-            nebulaAnimData.animRunTime = 0.0f;
-            nebulaAnimData.spriteRect.x = nebulaAnimData.frame * nebulaAnimData.spriteWidth;
+            nebulae[0].animRunTime = 0.0f;
+            nebulae[0].spriteRect.x = nebulae[0].frame * nebulae[0].spriteWidth;
 
-            nebulaAnimData.frame = nebulaAnimData.frame >= 7 ? 0 : nebulaAnimData.frame + 1;
+            nebulae[0].frame = nebulae[0].frame >= 7 ? 0 : nebulae[0].frame + 1;
         }
 
         if (scarfyData.animRunTime >= scarfyData.ANIME_UPDATE_TIME)
@@ -159,15 +160,15 @@ int main()
         }
 
         scarfyData.pos.y += jumpVelocity * deltaTime;
-        nebulaAnimData.pos.x += nebulaVelocity * deltaTime;
-        nebulaAnimData2.pos.x += nebulaVelocity * deltaTime;
+        nebulae[0].pos.x += nebulaVelocity * deltaTime;
+        nebulae[1].pos.x += nebulaVelocity * deltaTime;
 
 
         DrawTextureRec(scarfySpriteSheet, scarfyData.spriteRect, scarfyData.pos, WHITE);
-        DrawTextureRec(nebulaSpriteSheet, nebulaAnimData.spriteRect, nebulaAnimData.pos, WHITE);
+        DrawTextureRec(nebulaSpriteSheet, nebulae[0].spriteRect, nebulae[0].pos, WHITE);
 
         // nebula 2
-        DrawTextureRec(nebulaSpriteSheet, nebulaAnimData2.spriteRect, nebulaAnimData2.pos, RED);
+        DrawTextureRec(nebulaSpriteSheet, nebulae[1].spriteRect, nebulae[1].pos, RED);
         
         
         // End Game Logic
