@@ -39,11 +39,16 @@ int main()
     // files paths
     const char *scargySpriteSheetPath { "Assets/textures/scarfy.png" };
     const char *nebulaSpriteSheetPath { "Assets/textures/12_nebula_spritesheet.png" };
+    const char *backgroundSprite { "Assets/textures/far-buildings.png" };
+
     // Window setup
     const int WINDOW_DIMENSIONS[2] { 800, 600 };
     SetTargetFPS(60);
 
     InitWindow(WINDOW_DIMENSIONS[0], WINDOW_DIMENSIONS[1], "Dapper Dasher");
+
+    // background
+    Texture2D backgroundTexture { LoadTexture(backgroundSprite) };
 
     // Nebula
     Texture2D nebulaSpriteSheet { LoadTexture(nebulaSpriteSheetPath) };
@@ -108,6 +113,10 @@ int main()
         nebulae[i].animRunTime = 0;
     }
 
+    float bgXSpeed { };
+
+
+
 
 
     while (!WindowShouldClose())
@@ -117,6 +126,11 @@ int main()
         // Begin Game Logic
 
         float deltaTime = GetFrameTime();
+        
+        // scrolling and updating the background
+        Vector2 backgroundPos { bgXSpeed, 0.0f };
+        bgXSpeed -= 20 * deltaTime;
+        DrawTextureEx(backgroundTexture, backgroundPos, 0.0f, 3.3f, WHITE);
 
         scarfyData.animRunTime += deltaTime;
 
@@ -126,16 +140,6 @@ int main()
             // Update Nebulae animations
 
             nebulae[i] = updateAnimDataAnimations(nebulae[i], deltaTime, 7);
-
-            // nebulae[i].animRunTime += deltaTime;
-
-            // if (nebulae[i].animRunTime >= nebulae[i].animUpdateTime)
-            // {
-            //     nebulae[i].animRunTime = 0.0f;
-            //     nebulae[i].spriteRect.x = nebulae[i].frame * nebulae[i].getSpriteWidth();
-
-            //     nebulae[i].frame = nebulae[i].frame >= 7 ? 0 : nebulae[i].frame + 1;
-            // }
 
             // Update Nebula position
             nebulae[i].pos.x += nebulaVelocity * deltaTime;
@@ -190,6 +194,7 @@ int main()
 
     UnloadTexture(scarfySpriteSheet);
     UnloadTexture(nebulaSpriteSheet);
+    UnloadTexture(backgroundTexture);
     CloseWindow();
 
     return 0;
