@@ -13,6 +13,12 @@ struct AnimData
 };
 
 
+bool isGrounded(AnimData data, int windowHeight)
+{
+    return data.pos.y >= windowHeight - data.spriteRect.height;
+}
+
+
 int main()
 {
     // files paths
@@ -61,7 +67,7 @@ int main()
 
     bool grounded { };
 
-    const int NEBULAE_COUNT { 3 };
+    const int NEBULAE_COUNT { 6 };
     AnimData nebulae[NEBULAE_COUNT] { };
 
     for (int i { 0 }; i < NEBULAE_COUNT; i++)
@@ -98,33 +104,27 @@ int main()
         float deltaTime = GetFrameTime();
 
         scarfyData.animRunTime += deltaTime;
-        nebulae[0].animRunTime += deltaTime;
-        nebulae[1].animRunTime += deltaTime;
-        nebulae[2].animRunTime += deltaTime;
 
-        if (nebulae[1].animRunTime >= nebulae[1].animUpdateTime)
+        for (int i { 0 }; i < NEBULAE_COUNT; i++)
         {
-            nebulae[1].animRunTime = 0.0f;
-            nebulae[1].spriteRect.x = nebulae[1].frame * nebulae[1].getSpriteWidth();
+            nebulae[i].animRunTime += deltaTime;
 
-            nebulae[1].frame = nebulae[1].frame >= 7 ? 0 : nebulae[1].frame + 1;
+            if (nebulae[i].animRunTime >= nebulae[i].animUpdateTime)
+            {
+                nebulae[i].animRunTime = 0.0f;
+                nebulae[i].spriteRect.x = nebulae[i].frame * nebulae[i].getSpriteWidth();
+
+                nebulae[i].frame = nebulae[i].frame >= 7 ? 0 : nebulae[i].frame + 1;
+            }
+
+            // Update Nebula position
+            nebulae[i].pos.x += nebulaVelocity * deltaTime;
+
+            // Draw Nebulae
+            DrawTextureRec(nebulaSpriteSheet, nebulae[i].spriteRect, nebulae[i].pos, WHITE);
         }
 
-        if (nebulae[2].animRunTime >= nebulae[2].animUpdateTime)
-        {
-            nebulae[2].animRunTime = 0.0f;
-            nebulae[2].spriteRect.x = nebulae[2].frame * nebulae[2].getSpriteWidth();
-
-            nebulae[2].frame = nebulae[2].frame >= 7 ? 0 : nebulae[2].frame + 1;
-        }
-
-        if (nebulae[0].animRunTime >= nebulae[0].animUpdateTime)
-        {
-            nebulae[0].animRunTime = 0.0f;
-            nebulae[0].spriteRect.x = nebulae[0].frame * nebulae[0].getSpriteWidth();
-
-            nebulae[0].frame = nebulae[0].frame >= 7 ? 0 : nebulae[0].frame + 1;
-        }
+        
 
         if (scarfyData.animRunTime >= scarfyData.animUpdateTime)
         {
@@ -142,7 +142,7 @@ int main()
         }
 
         // apply ground check and gravity
-        grounded = (scarfyData.pos.y >= WINDOW_DIMENSIONS[1] - scarfyData.spriteRect.height);
+        grounded = isGrounded(scarfyData, WINDOW_DIMENSIONS[1]);
         
         if (!grounded)
         {
@@ -160,18 +160,9 @@ int main()
         }
 
         scarfyData.pos.y += jumpVelocity * deltaTime;
-        nebulae[0].pos.x += nebulaVelocity * deltaTime;
-        nebulae[1].pos.x += nebulaVelocity * deltaTime;
-        nebulae[2].pos.x += nebulaVelocity * deltaTime;
 
 
         DrawTextureRec(scarfySpriteSheet, scarfyData.spriteRect, scarfyData.pos, WHITE);
-        DrawTextureRec(nebulaSpriteSheet, nebulae[0].spriteRect, nebulae[0].pos, WHITE);
-
-        // nebula 2
-        DrawTextureRec(nebulaSpriteSheet, nebulae[1].spriteRect, nebulae[1].pos, RED);
-        DrawTextureRec(nebulaSpriteSheet, nebulae[2].spriteRect, nebulae[2].pos, BLUE);
-        
         
         // End Game Logic
         EndDrawing();
