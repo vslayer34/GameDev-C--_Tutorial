@@ -18,6 +18,21 @@ bool isGrounded(AnimData data, int windowHeight)
     return data.pos.y >= windowHeight - data.spriteRect.height;
 }
 
+AnimData updateAnimDataAnimations(AnimData data, float deltaTime, int maxFrameCount)
+{
+    data.animRunTime += deltaTime;
+
+    if (data.animRunTime >= data.animUpdateTime)
+    {
+        data.animRunTime = 0.0f;
+        data.spriteRect.x = data.frame * data.getSpriteWidth();
+
+        data.frame = data.frame >= maxFrameCount ? 0 : data.frame + 1;
+    }
+    
+    return data;
+}
+
 
 int main()
 {
@@ -107,15 +122,20 @@ int main()
 
         for (int i { 0 }; i < NEBULAE_COUNT; i++)
         {
-            nebulae[i].animRunTime += deltaTime;
 
-            if (nebulae[i].animRunTime >= nebulae[i].animUpdateTime)
-            {
-                nebulae[i].animRunTime = 0.0f;
-                nebulae[i].spriteRect.x = nebulae[i].frame * nebulae[i].getSpriteWidth();
+            // Update Nebulae animations
 
-                nebulae[i].frame = nebulae[i].frame >= 7 ? 0 : nebulae[i].frame + 1;
-            }
+            nebulae[i] = updateAnimDataAnimations(nebulae[i], deltaTime, 7);
+
+            // nebulae[i].animRunTime += deltaTime;
+
+            // if (nebulae[i].animRunTime >= nebulae[i].animUpdateTime)
+            // {
+            //     nebulae[i].animRunTime = 0.0f;
+            //     nebulae[i].spriteRect.x = nebulae[i].frame * nebulae[i].getSpriteWidth();
+
+            //     nebulae[i].frame = nebulae[i].frame >= 7 ? 0 : nebulae[i].frame + 1;
+            // }
 
             // Update Nebula position
             nebulae[i].pos.x += nebulaVelocity * deltaTime;
