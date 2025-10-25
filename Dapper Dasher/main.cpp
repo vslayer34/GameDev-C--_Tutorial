@@ -39,7 +39,9 @@ int main()
     // files paths
     const char *scargySpriteSheetPath { "Assets/textures/scarfy.png" };
     const char *nebulaSpriteSheetPath { "Assets/textures/12_nebula_spritesheet.png" };
-    const char *backgroundSprite { "Assets/textures/far-buildings.png" };
+    const char *backgroundSpritePath { "Assets/textures/far-buildings.png" };
+    const char *midgroundSpritePath { "Assets/textures/back-buildings.png" };
+    const char *foregroundSpritePath { "Assets/textures/foreground.png" };
 
     // Window setup
     const int WINDOW_DIMENSIONS[2] { 800, 600 };
@@ -48,7 +50,9 @@ int main()
     InitWindow(WINDOW_DIMENSIONS[0], WINDOW_DIMENSIONS[1], "Dapper Dasher");
 
     // background
-    Texture2D backgroundTexture { LoadTexture(backgroundSprite) };
+    Texture2D backgroundTexture { LoadTexture(backgroundSpritePath) };
+    Texture2D midgroundTexture { LoadTexture(midgroundSpritePath) };
+    Texture2D foregroundTexture { LoadTexture(foregroundSpritePath) };
 
     // Nebula
     Texture2D nebulaSpriteSheet { LoadTexture(nebulaSpriteSheetPath) };
@@ -128,9 +132,18 @@ int main()
         float deltaTime = GetFrameTime();
         
         // scrolling and updating the background
-        Vector2 backgroundPos { bgXSpeed, 0.0f };
-        bgXSpeed -= 20 * deltaTime;
-        DrawTextureEx(backgroundTexture, backgroundPos, 0.0f, 3.3f, WHITE);
+        bgXSpeed -= 80 * deltaTime;
+
+        if (bgXSpeed <= -backgroundTexture.width * 3.3f)
+        {
+            bgXSpeed = 0.0f;
+        }
+
+        Vector2 backgroundPos1 { bgXSpeed, 0.0f };
+        Vector2 backgroundPos2 { bgXSpeed + backgroundTexture.width * 3.3f, 0.0f };     // the scale of the backgrond
+        
+        DrawTextureEx(backgroundTexture, backgroundPos1, 0.0f, 3.3f, WHITE);
+        DrawTextureEx(backgroundTexture, backgroundPos2, 0.0f, 3.3f, WHITE);
 
         scarfyData.animRunTime += deltaTime;
 
@@ -195,6 +208,8 @@ int main()
     UnloadTexture(scarfySpriteSheet);
     UnloadTexture(nebulaSpriteSheet);
     UnloadTexture(backgroundTexture);
+    UnloadTexture(midgroundTexture);
+    UnloadTexture(foregroundTexture);
     CloseWindow();
 
     return 0;
