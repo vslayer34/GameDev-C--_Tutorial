@@ -118,6 +118,8 @@ int main()
     }
 
     float bgXSpeed { };
+    float mgXSpeed { };
+    float fgXSpeed { };
 
 
 
@@ -132,7 +134,7 @@ int main()
         float deltaTime = GetFrameTime();
         
         // scrolling and updating the background
-        bgXSpeed -= 80 * deltaTime;
+        bgXSpeed -= 20 * deltaTime;
 
         if (bgXSpeed <= -backgroundTexture.width * 3.3f)
         {
@@ -144,6 +146,34 @@ int main()
         
         DrawTextureEx(backgroundTexture, backgroundPos1, 0.0f, 3.3f, WHITE);
         DrawTextureEx(backgroundTexture, backgroundPos2, 0.0f, 3.3f, WHITE);
+
+        // scrolling and updating the midground
+        mgXSpeed -= 40 * deltaTime;
+
+        if (mgXSpeed <= -midgroundTexture.width * 3.3f)
+        {
+            mgXSpeed = 0.0f;
+        }
+
+        Vector2 midgroundPos1 { mgXSpeed, 0.0f };
+        Vector2 midgroundPos2 { mgXSpeed + midgroundTexture.width * 3.3f, 0.0f };
+
+        DrawTextureEx(midgroundTexture, midgroundPos1, 0.0f, 3.3f, WHITE);
+        DrawTextureEx(midgroundTexture, midgroundPos2, 0.0f, 3.3f, WHITE);
+
+        // scrolling and updating the foreground
+        fgXSpeed -= 80 * deltaTime;
+
+        if (fgXSpeed <= -foregroundTexture.width * 3.3f)
+        {
+            fgXSpeed = 0.0f;
+        }
+
+        Vector2 foregroundPos1 { fgXSpeed, 0.0f };
+        Vector2 foregroundPos2 { fgXSpeed + foregroundTexture.width * 3.3f, 0.0f };
+
+        DrawTextureEx(foregroundTexture, foregroundPos1, 0.0f, 3.3f, WHITE);
+        DrawTextureEx(foregroundTexture, foregroundPos2, 0.0f, 3.3f, WHITE);
 
         scarfyData.animRunTime += deltaTime;
 
