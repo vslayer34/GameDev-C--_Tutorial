@@ -117,6 +117,8 @@ int main()
         nebulae[i].animRunTime = 0;
     }
 
+    float finishLine { nebulae[NEBULAE_COUNT - 1].pos.x };
+
     float bgXSpeed { };
     float mgXSpeed { };
     float fgXSpeed { };
@@ -190,6 +192,9 @@ int main()
             // Draw Nebulae
             DrawTextureRec(nebulaSpriteSheet, nebulae[i].spriteRect, nebulae[i].pos, WHITE);
         }
+
+        // Update finish line position
+        finishLine += nebulaVelocity * deltaTime;
 
         
 
