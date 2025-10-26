@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include <iostream>
 
 struct AnimData
 {
@@ -123,6 +124,8 @@ int main()
     float mgXSpeed { };
     float fgXSpeed { };
 
+    bool collision { };
+
 
 
 
@@ -190,11 +193,42 @@ int main()
             nebulae[i].pos.x += nebulaVelocity * deltaTime;
 
             // Draw Nebulae
-            DrawTextureRec(nebulaSpriteSheet, nebulae[i].spriteRect, nebulae[i].pos, WHITE);
+            if (!collision)
+            {
+                DrawTextureRec(nebulaSpriteSheet, nebulae[i].spriteRect, nebulae[i].pos, WHITE);
+            }
         }
 
         // Update finish line position
         finishLine += nebulaVelocity * deltaTime;
+
+        // Check for ollisions
+
+        for (AnimData nebula : nebulae)
+        {
+            float padding { 20.0f };
+
+            Rectangle nebRec
+            {
+                .x = nebula.pos.x + padding,
+                .y = nebula.pos.y + padding,
+                .width = nebula.spriteRect.width - padding * 2.0f,
+                .height = nebula.spriteRect.height - padding * 2.0f
+            };
+
+            Rectangle scarfyRec
+            {
+                .x = scarfyData.pos.x,
+                .y = scarfyData.pos.y,
+                .width = scarfyData.spriteRect.width,
+                .height = scarfyData.spriteRect.height
+            };
+
+            if (CheckCollisionRecs(nebRec, scarfyRec))
+            {
+                collision = true;
+            }
+        }
 
         
 
@@ -233,8 +267,10 @@ int main()
 
         scarfyData.pos.y += jumpVelocity * deltaTime;
 
-
-        DrawTextureRec(scarfySpriteSheet, scarfyData.spriteRect, scarfyData.pos, WHITE);
+        if (!collision)
+        {
+            DrawTextureRec(scarfySpriteSheet, scarfyData.spriteRect, scarfyData.pos, WHITE);
+        }
         
         // End Game Logic
         EndDrawing();
