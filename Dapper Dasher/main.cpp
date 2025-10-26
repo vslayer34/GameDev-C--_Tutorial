@@ -206,7 +206,7 @@ int main()
 
         for (AnimData nebula : nebulae)
         {
-            float padding { 20.0f };
+            float padding { 60.0f };
 
             Rectangle nebRec
             {
@@ -226,7 +226,7 @@ int main()
 
             if (CheckCollisionRecs(nebRec, scarfyRec))
             {
-                collision = true;
+                collision = true; 
             }
         }
 
@@ -270,6 +270,15 @@ int main()
         if (!collision)
         {
             DrawTextureRec(scarfySpriteSheet, scarfyData.spriteRect, scarfyData.pos, WHITE);
+        }
+
+        if (collision)
+        {
+            DrawText("GAME OVER !!", WINDOW_DIMENSIONS[0] / 2.0f, WINDOW_DIMENSIONS[1] / 2.0f, 50.0f, RED);
+        }
+        else if (scarfyData.pos.x >= finishLine)
+        {
+            DrawText("You Win \\m/", WINDOW_DIMENSIONS[0] / 2.0f, WINDOW_DIMENSIONS[1] / 2.0f, 50.0f, GREEN);
         }
         
         // End Game Logic
